@@ -3,6 +3,7 @@ import AddProductForm from "../components/AddProductForm";
 import AuthButton from "@/components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
 import { getProducts } from "./actions";
+import ProductCard from "@/components/ProductCard";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -10,8 +11,6 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
   const products = user ? (await getProducts()).products : [];
-
-  console.log(products);
 
   const FEATURES = [
     {
@@ -88,13 +87,24 @@ export default async function Home() {
           )}
 
           {user && products.length > 0 && (
-            <section>
-              <div>
-                <h3>Your Tracked Products</h3>
-                <span>
+            <section className="max-w-6xl w-full">
+              <div className="w-full flex justify-between items-center mt-10 mb-5">
+                <h3 className="text-2xl font-bold">Your Tracked Products</h3>
+                <div className="ml-auto text-gray-600">
                   {products.length}{" "}
                   {products.length === 1 ? "product" : "products"}
-                </span>
+                </div>
+              </div>
+              <div className="grid gap-6 md:grid-cols-2 items-start">
+                {products.map((product) => {
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      user={user}
+                    />
+                  );
+                })}
               </div>
             </section>
           )}

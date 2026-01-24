@@ -141,7 +141,6 @@ export async function getProducts() {
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });
 
-    console.log("Fetched products:", products);
     if (error) {
       return { error: "Database error: " + error.message };
     }
