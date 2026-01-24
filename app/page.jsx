@@ -1,10 +1,17 @@
-import { Button } from "@/components/ui/button";
-import { LogIn, Rabbit, Shield, Bell } from "lucide-react";
+import { Rabbit, Shield, Bell, TrendingDown } from "lucide-react";
 import AddProductForm from "../components/AddProductForm";
+import AuthButton from "@/components/AuthButton";
+import { createClient } from "@/utils/supabase/server";
+import { getProducts } from "./actions";
 
-export default function Home() {
-  const user = null;
-  const products = [];
+export default async function Home() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const products = user ? (await getProducts()).products : [];
+
+  console.log(products);
 
   const FEATURES = [
     {
@@ -30,23 +37,17 @@ export default function Home() {
     <main className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-50">
       {/* HEADER */}
       <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-50 w-full border-b border-orange-200 px-4 py-2 flex justify-between items-center">
-        <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
+        <div className="max-w-6xl mx-auto w-full flex justify-between items-center">
           <div className="flex items-center gap-3">
             <img
-              className="h-30 w-auto"
+              className="h-15 w-auto"
               src={"/price-ping-logo.png"}
-              width={600}
-              height={200}
+              // width={300}
+              // height={100}
             />
           </div>
-          <Button
-            variant="default"
-            size="sm"
-            className={"bg-orange-500 hover: bg-amber-600 gap-2"}
-          >
-            <LogIn size={16} />
-            Sign In
-          </Button>
+          {/* AUTH BUTTON */}
+          <AuthButton user={user} />
         </div>
       </header>
 
@@ -68,7 +69,7 @@ export default function Home() {
           <AddProductForm user={user} />
           {/* FEATURES */}
           {products.length === 0 && (
-            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16">
+            <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-16">
               {FEATURES.map(({ icon: Icon, title, description }) => (
                 <div
                   key={title}
@@ -83,6 +84,28 @@ export default function Home() {
                   </p>
                 </div>
               ))}
+            </div>
+          )}
+
+          {user && products.length > 0 && (
+            <section>
+              <div>
+                <h3>Your Tracked Products</h3>
+                <span>
+                  {products.length}{" "}
+                  {products.length === 1 ? "product" : "products"}
+                </span>
+              </div>
+            </section>
+          )}
+
+          {user && products.length === 0 && (
+            <div className="border-dashed border-2 mt-10 max-w-6xl w-full border-gray-300 p-10 rounded-lg flex flex-col items-center">
+              <TrendingDown className="w-16 h-16 text-gray-300 mt-5 mx-auto" />
+              <h3 className="text-3xl font-semibold">No products yet</h3>
+              <p className="text-gray-500 mt-2 text-center">
+                Add your first product to start tracking prices!
+              </p>
             </div>
           )}
         </div>
