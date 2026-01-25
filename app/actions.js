@@ -74,15 +74,16 @@ export async function addProduct(formData) {
     const shouldAddHistory =
       !isUpdate || existingProduct.current_price !== newPrice;
 
+    console.log("shouldAddHistory", shouldAddHistory);
     if (shouldAddHistory) {
-      const { error: historyError } = await supabase
-        .from("price_history")
-        .insert({
-          product_id: product.id,
-          price: newPrice,
-          currency: currency,
-          checked_at: new Date().toISOString(),
-        });
+      const { data, error } = await supabase.from("price_history").insert({
+        product_id: product.id,
+        price: newPrice,
+        currency: currency,
+        checked_at: new Date().toISOString(),
+      });
+      console.log("Data", data);
+      console.log("error", error);
     }
     revalidatePath("/");
     return {
@@ -163,7 +164,7 @@ export async function getPriceHistory(productId) {
     }
     const { data: history, error } = await supabase
       .from("price_history")
-      .getAll()
+      .select("*")
       .eq("product_id", productId)
       .order("checked_at", { ascending: true });
 

@@ -16,14 +16,23 @@ import { ChevronDown, ChevronUp, ExternalLink, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { deleteProduct } from "@/app/actions";
 import { toast } from "sonner";
+import PriceChart from "./PriceChart";
 
 const ProductCard = ({ product, user }) => {
-  console.log(product);
-
   const [showChart, setShowChart] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    setDeleting(true);
+    const result = await deleteProduct(product.id);
+
+    if (result.error) {
+      toast.error("Error deleting product: " + result.error);
+    } else {
+      toast.success("Product deleted successfully");
+    }
+    setDeleting(false);
+  };
 
   return (
     <Card className="relative mx-auto w-full max-w-md pt-0 rounded-2xl overflow-hidden">
@@ -45,13 +54,13 @@ const ProductCard = ({ product, user }) => {
           {product.currency} {product.current_price}
         </CardDescription>
       </CardHeader>
-      <CardFooter>
-        <div className="flex flex-wrap gap-2 items-start">
+      <CardDescription>
+        <div className="flex flex-wrap gap-2 items-start ml-5 ">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowChart(!showChart)}
-            className="gap-1"
+            className="gap-1 cursor-pointer"
           >
             {showChart ? (
               <>
@@ -78,13 +87,18 @@ const ProductCard = ({ product, user }) => {
             size="sm"
             onClick={handleDelete}
             disabled={deleting}
-            className="text-red-600 hover:text-red-700 hover:bg-red-50 gap-1"
+            className="text-red-600 hover:text-red-700 hover:bg-red-50 gap-1 cursor-pointer"
           >
             <Trash2 className="w-4 h-4" />
-            Remove
+            {deleting ? "Removing..." : "Remove"}
           </Button>
         </div>
-      </CardFooter>
+      </CardDescription>
+      {showChart && (
+        <CardFooter>
+          <PriceChart productId={product.id} />
+        </CardFooter>
+      )}
     </Card>
   );
 };
