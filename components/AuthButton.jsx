@@ -30,7 +30,7 @@ const AuthButton = ({ user }) => {
   return (
     <>
       <Button
-        className={"bg-orange-500 hover: bg-amber-600 gap-2 cursor-pointer"}
+        className={"bg-orange-500 hover:bg-amber-700 gap-2 cursor-pointer"}
         variant="default"
         onClick={() => setShowAuthModal(true)}
         size="sm"
