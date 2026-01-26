@@ -1,6 +1,7 @@
 import { scrapeProduct } from "@/lib/firecrawl";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { sendPriceDropAlert } from "../../../../lib/email";
 
 export async function GET() {
   return NextResponse.json({
@@ -19,7 +20,7 @@ export async function POST(request) {
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY,
     );
 
     const { data: products, error } = await supabase
@@ -52,7 +53,9 @@ export async function POST(request) {
         }
         const newPrice = parseFloat(productData.currentPrice);
         const oldPrice = parseFloat(product.current_price);
-
+        console.log(
+          `Product ID: ${product?.id},Product Name: ${product?.product_name}, Old Price: ${oldPrice}, New Price: ${newPrice}`,
+        );
         await supabase
           .from("products")
           .update({
@@ -65,13 +68,14 @@ export async function POST(request) {
 
         if (newPrice !== oldPrice) {
           result.priceChanges += 1;
-          await supabase.from("price_history").insert({
+          const response = await supabase.from("price_history").insert({
             product_id: product.id,
             price: newPrice,
-            currentPrice: product.currency,
+            currency: productData.currency || product.currency,
             checked_at: new Date().toISOString(),
           });
-
+          console.log("Price history insert response:", response);
+          result.updated += 1;
           if (newPrice < oldPrice) {
             const {
               data: { user },
@@ -90,16 +94,16 @@ export async function POST(request) {
             }
           }
         }
-        return NextResponse.json({
-          success: true,
-          message: "Price updated successfully",
-          result,
-        });
       } catch (error) {
         result.failed += 1;
         console.error(`Error processing product ID ${product.id}:`, error);
       }
     }
+    return NextResponse.json({
+      success: true,
+      message: "Price updated successfully",
+      result,
+    });
   } catch (error) {
     console.error("Error in cron job:", error);
     return NextResponse.json({ error: "Cron job failed" }, { status: 500 });

@@ -65,7 +65,9 @@ export default function PriceChart({ productId }) {
               backgroundColor: "white",
               border: "1px solid #e5e7eb",
               borderRadius: "6px",
+              zIndex: 1000, // Force it to the front
             }}
+            wrapperStyle={{ outline: "none" }}
           />
           <Line
             type="monotone"

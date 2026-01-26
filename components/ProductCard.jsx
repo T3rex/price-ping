@@ -65,7 +65,7 @@ const ProductCard = ({ product, user }) => {
               target="_blank"
               className="hover:underline"
             >
-              <h3 className="line-clamp-2 min-h-[3rem] text-lg font-bold leading-tight text-slate-900 group-hover:text-indigo-700 transition-colors">
+              <h3 className="line-clamp-2 min-h-12 text-lg font-bold leading-tight text-slate-900 group-hover:text-indigo-700 transition-colors">
                 {product.product_name}
               </h3>
             </Link>

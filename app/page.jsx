@@ -61,7 +61,7 @@ export default async function Home() {
       {/* HERO SECTION */}
       <section className="relative pt-32 pb-20 px-6 overflow-hidden">
         {/* Abstract Background Gradient - Warm Sunrise Feel */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-100/60 via-orange-50/30 to-transparent -z-10" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-200 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-100/60 via-orange-50/30 to-transparent -z-10" />
 
         <div className="max-w-4xl mx-auto text-center">
           {/* BADGE */}

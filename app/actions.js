@@ -74,16 +74,13 @@ export async function addProduct(formData) {
     const shouldAddHistory =
       !isUpdate || existingProduct.current_price !== newPrice;
 
-    console.log("shouldAddHistory", shouldAddHistory);
     if (shouldAddHistory) {
-      const { data, error } = await supabase.from("price_history").insert({
+      await supabase.from("price_history").insert({
         product_id: product.id,
         price: newPrice,
         currency: currency,
         checked_at: new Date().toISOString(),
       });
-      console.log("Data", data);
-      console.log("error", error);
     }
     revalidatePath("/");
     return {

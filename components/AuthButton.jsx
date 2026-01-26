@@ -13,7 +13,7 @@ const AuthButton = ({ user }) => {
       <form action={signOut}>
         <Button
           className={
-            "bg-gray-400 hover: bg-gray-600 gap-2 cursor-pointer text-white"
+            "bg-gray-400 hover:bg-gray-600 gap-2 cursor-pointer text-white"
           }
           variant="ghost"
           onClick={() => setShowAuthModal(true)}
