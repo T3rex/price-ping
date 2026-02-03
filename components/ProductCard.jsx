@@ -42,13 +42,13 @@ const ProductCard = ({ product, user }) => {
 
   return (
     <Card className="relative mx-auto w-full max-w-md pt-0 rounded-2xl overflow-hidden h-fit">
-      <div className="absolute inset-0 z-30 aspect-video bg-black/35 rounded-t-2xl" />
+      <div className="absolute inset-0 z-40 aspect-video bg-black/35 rounded-t-2xl" />
       <img
         src={product.image_url}
         alt={product.product_name}
         className="relative z-20 aspect-video w-full object-cover "
       />
-      <div className="absolute right-3 top-3 z-50">
+      <div className="absolute right-3 top-3 z-30">
         <Badge
           variant="secondary"
           className="bg-white/90 text-emerald-600 backdrop-blur-sm shadow-sm hover:bg-white border border-slate-100"

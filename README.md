@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Price Ping 🔔
 
-## Getting Started
+**Price Ping** is an intelligent, automated price-tracking web application built to monitor products across major e-commerce platforms like Amazon, Flipkart, and Myntra. It leverages advanced AI scraping to ensure you never miss a deal by sending instant email alerts the moment a price drops.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- **Real-Time Tracking**: Monitors your favorite items 24/7 and catches flash sales before they expire.
+
+- **AI-Powered Scraping**: Utilizes enterprise-grade technology to extract product names, prices, and images accurately from dynamic websites.
+
+- **Instant Email Alerts**: Automatically calculates price drops and percentages, sending a detailed alert via Resend when a deal is found.
+
+- **Price History Visualization**: Includes interactive charts to track price trends over time, helping you predict the best time to buy.
+- **Multi-Store Support**: One unified dashboard to manage shopping lists across multiple retailers.
+
+- **Secure Authentication**: User accounts and data are managed securely via Supabase.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15 (App Router), React 19, Tailwind CSS.
+
+- **Backend/Database**: Supabase (PostgreSQL & Auth).
+
+- **Scraping Engine**: Firecrawl (AI-based web scraping).
+
+- **Email Service**: Resend.
+
+- **Components**: Radix UI, Lucide React, and Recharts for data visualization.
+
+---
+
+## 📦 Getting Started
+
+Prerequisites
+
+- Node.js 18+
+- A Supabase project
+- A Firecrawl API key
+- A Resend API key
+
+---
+
+Price Ping 🔔
+Price Ping is an intelligent, automated price-tracking web application built to monitor products across major e-commerce platforms like Amazon, Flipkart, and Myntra. It leverages advanced AI scraping to ensure you never miss a deal by sending instant email alerts the moment a price drops.
+
+🚀 Features
+Real-Time Tracking: Monitors your favorite items 24/7 and catches flash sales before they expire.
+
+AI-Powered Scraping: Utilizes enterprise-grade technology to extract product names, prices, and images accurately from dynamic websites.
+
+Instant Email Alerts: Automatically calculates price drops and percentages, sending a detailed alert via Resend when a deal is found.
+
+Price History Visualization: Includes interactive charts to track price trends over time, helping you predict the best time to buy.
+
+Multi-Store Support: One unified dashboard to manage shopping lists across multiple retailers.
+
+Secure Authentication: User accounts and data are managed securely via Supabase.
+
+🛠️ Tech Stack
+Frontend: Next.js 15 (App Router), React 19, Tailwind CSS.
+
+Backend/Database: Supabase (PostgreSQL & Auth).
+
+Scraping Engine: Firecrawl (AI-based web scraping).
+
+Email Service: Resend.
+
+Components: Radix UI, Lucide React, and Recharts for data visualization.
+
+📦 Getting Started
+Prerequisites
+Node.js 18+
+
+A Supabase project
+
+A Firecrawl API key
+
+A Resend API key
+
+---
+
+## 🤖 Installation
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/T3rex/price-ping.git
+cd price-ping
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Environment Setup Create a .env.local file in the root directory and add the following:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_supaase_publishable_key
+NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET=your_google_client_secret
+CRON_SECRET=your_cron_secret()
+FIRECRAWL_API_KEY=your_firecrawl_key
+RESEND_API_KEY=your_resend_key
+RESEND_FROM_EMAIL=onboarding@resend.dev
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+4. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 to see the application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚦 How It Works
 
-## Learn More
+- **Search** : Paste a product URL from a supported store into the dashboard.
 
-To learn more about Next.js, take a look at the following resources:
+- **Scrape** : The app uses Firecrawl to extract the current price and product details.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Track** : A cron job periodically checks for price updates.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Ping** : If the price decreases, an automated email is sent to you with a direct link to buy.
